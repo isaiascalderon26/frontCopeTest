@@ -1,11 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
 import App from './App';
+import rootReducer from './reducers/taskReducers';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+// Importa createRoot desde "react-dom/client"
+import { createRoot } from 'react-dom/client';
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [thunk],
+});
+
+const root = document.getElementById('root');
+
+// Usa createRoot en lugar de ReactDOM.render
+createRoot(root).render(
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>
 );
