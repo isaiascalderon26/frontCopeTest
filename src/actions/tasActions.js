@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/v1/task'; // Reemplazar 'puerto' con el número del puerto en el que se ejecuta el backend
+const BASE_URL = 'http://localhost:8080/api/v1/task';
 
 export const fetchTasks = () => async (dispatch) => {
   try {
@@ -11,6 +11,7 @@ export const fetchTasks = () => async (dispatch) => {
   }
 };
 
+// tasActions.js
 export const addTask = (task) => async (dispatch) => {
   try {
     const response = await axios.post(BASE_URL, task);
@@ -20,10 +21,11 @@ export const addTask = (task) => async (dispatch) => {
   }
 };
 
-export const deleteTask = (id) => async (dispatch) => {
+export const deleteTask = (task) => async (dispatch) => {
   try {
-    await axios.delete(`${BASE_URL}/${id}`);
-    dispatch({ type: 'DELETE_TASK', payload: id });
+    const { identificador } = task;
+    await axios.delete(`${BASE_URL}/${identificador}`);
+    dispatch({ type: 'DELETE_TASK', payload: identificador });
   } catch (error) {
     console.error('Error deleting task:', error);
   }

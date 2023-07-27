@@ -1,31 +1,42 @@
 // TaskForm.scss
 
 .form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  .MuiInputLabel-root {
+    transition: transform 200ms; // Agrega una transición para suavizar los cambios
+  }
+
+  .label-above {
+    transform: translateY(-14px) scale(0.8); // Escala el label para reducir su tamaño cuando está arriba
+  }
+
+  .label-normal {
+    transform: translateY(0) scale(1); // Restaura el label a su posición normal
+  }
+
+  h2 {
+    margin-bottom: 16px;
+  }
+
+  form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  
-    h2 {
-      margin-bottom: 16px;
+    gap: 8px;
+
+    .MuiTextField-root {
+      width: 100%;
     }
-  
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-  
-      .MuiTextField-root {
-        width: 100%;
-      }
-  
-      .MuiButton-root {
-        width: fit-content;
-        margin-top: 16px;
-      }
+
+    .MuiButton-root {
+      width: fit-content;
+      margin-top: 16px;
     }
   }
-  
+}
