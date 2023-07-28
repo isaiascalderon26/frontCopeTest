@@ -6,12 +6,25 @@ import './TaskList.scss';
 
 const TaskList = () => {
   const [editingTaskId, setEditingTaskId] = useState(null);
-  const tasks = useSelector((state) => state);
+  const tasks = useSelector((state) => state.tasks);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Hacemos una solicitud HTTP para obtener las tareas al cargar el componente
     dispatch(fetchTasks());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Este efecto se ejecutará cada vez que cambie 'tasks'
+    // Vuelve a cargar las tareas automáticamente después de agregar una nueva
+    dispatch(fetchTasks());
+  }, [dispatch, tasks]);
+
+  if (!Array.isArray(tasks)) {
+    // Comprobar si tasks no es un array, p. ej., cuando es null o undefined
+    return <div>No hay tareas disponibles.</div>;
+  }
 
   const handleDelete = (task) => {
     dispatch(deleteTask(task));

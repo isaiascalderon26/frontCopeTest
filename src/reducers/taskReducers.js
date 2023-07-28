@@ -1,5 +1,8 @@
-// taskReducer.js
-const taskReducer = (state = [], action) => {
+// Importar combineReducers de Redux
+import { combineReducers } from 'redux';
+
+// Reducer para la lista de tareas
+const tasksReducer = (state = [], action) => {
   switch (action.type) {
     case 'FETCH_TASKS':
       return action.payload;
@@ -18,4 +21,9 @@ const taskReducer = (state = [], action) => {
   }
 };
 
-export default taskReducer;
+// Combinar el reducer en un rootReducer
+const rootReducer = combineReducers({
+  tasks: tasksReducer,
+});
+
+export default rootReducer;

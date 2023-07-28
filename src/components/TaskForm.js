@@ -1,9 +1,9 @@
-// TaskForm.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '../actions/tasActions';
 import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
 import './TaskForm.scss'; // Importa los estilos de Sass
+import { v4 as uuid } from 'uuid';
 
 const TaskForm = () => {
   const [task, setTask] = useState({
@@ -15,7 +15,6 @@ const TaskForm = () => {
   const [errors, setErrors] = useState({}); // Estado para almacenar los mensajes de error
 
   const dispatch = useDispatch();
-  const dateInputRef = useRef(null); // Referencia al campo de entrada de fecha
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +22,7 @@ const TaskForm = () => {
     // Validar los campos antes de enviar la solicitud al servidor
     const formIsValid = validateForm();
     if (formIsValid) {
-      dispatch(addTask(task));
+      dispatch(addTask({ ...task, id: uuid() }));
       setTask({
         descripcion: '',
         fechaCreacion: '',
@@ -35,15 +34,6 @@ const TaskForm = () => {
 
   const handleDateChange = (e) => {
     setTask({ ...task, fechaCreacion: e.target.value });
-
-    // Verifica si el campo de fecha está vacío o no y actualiza las clases del label en consecuencia
-    if (e.target.value === '') {
-      dateInputRef.current.previousSibling.classList.add('label-above');
-      dateInputRef.current.previousSibling.classList.remove('label-normal');
-    } else {
-      dateInputRef.current.previousSibling.classList.add('label-normal');
-      dateInputRef.current.previousSibling.classList.remove('label-above');
-    }
   };
 
   const validateForm = () => {
@@ -84,11 +74,11 @@ const TaskForm = () => {
           type='date'
           variant='outlined'
           value={task.fechaCreacion}
-          onChange={handleDateChange} // Usa el nuevo controlador de eventos para el campo de fecha
+          onChange={handleDateChange}
           required
-          error={!!errors.fechaCreacion} // Indicar si hay un error en el campo
-          helperText={errors.fechaCreacion} // Mostrar el mensaje de error
-          inputRef={dateInputRef} // Asigna la referencia al campo de entrada de fecha
+          error={!!errors.fechaCreacion}
+          helperText={errors.fechaCreacion}
+          InputLabelProps={{ shrink: true }} // Para que el label se desplace automáticamente cuando hay un valor
         />
         <FormControlLabel
           control={
